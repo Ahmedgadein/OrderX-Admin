@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "377072420221",
+    "firebase_url": "https://orderx-admin.firebaseio.com",
+    "project_id": "orderx-admin",
+    "storage_bucket": "orderx-admin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:377072420221:android:998813bda1dc8da5ddf814",
+        "android_client_info": {
+          "package_name": "com.example.orderxadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "377072420221-7ckgv4o81adpoi5kvsjm2jm6ic4romgu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZF611H47dUBY20HU_9N3OIgQRuPJy4fc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "377072420221-7ckgv4o81adpoi5kvsjm2jm6ic4romgu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
