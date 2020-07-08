@@ -6,6 +6,7 @@ import 'package:orderxadmin/db/generic_service.dart';
 import 'package:orderxadmin/db/brand.dart';
 import 'package:orderxadmin/screens/add_product.dart';
 
+// Pages
 enum Page { dashboard, manage }
 
 class HomePage extends StatefulWidget {
@@ -32,6 +33,7 @@ class _HomePageState extends State<HomePage> {
         elevation: 0.0,
         title: Row(
           children: <Widget>[
+            //Dashboard tab
             Expanded(
                 child: FlatButton.icon(
                     onPressed: () {
@@ -48,6 +50,8 @@ class _HomePageState extends State<HomePage> {
                       "Dashboard",
                       style: TextStyle(color: Colors.blueGrey),
                     ))),
+
+            //Manage tab
             Expanded(
               child: FlatButton.icon(
                   onPressed: () {
@@ -99,8 +103,10 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Text(
                       "22403",
-                      style:
-                          TextStyle(fontSize: 28.0, color: Colors.green[700], fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 28.0,
+                          color: Colors.green[700],
+                          fontWeight: FontWeight.bold),
                     ),
                   ],
                 )),
@@ -125,7 +131,8 @@ class _HomePageState extends State<HomePage> {
                               icon: Icon(Icons.people),
                               label: Text(
                                 "Users",
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15),
                               )),
                           child: Center(
                               child: Text(
@@ -151,13 +158,14 @@ class _HomePageState extends State<HomePage> {
                               icon: Icon(Icons.category),
                               label: Text(
                                 "Categories",
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15),
                               )),
                           child: Center(
                               child: Text(
-                                "3",
-                                style: TextStyle(fontSize: 60, color: Colors.blue),
-                              )),
+                            "3",
+                            style: TextStyle(fontSize: 60, color: Colors.blue),
+                          )),
                         ),
                       ),
                     ),
@@ -177,13 +185,14 @@ class _HomePageState extends State<HomePage> {
                               icon: Icon(Icons.toll),
                               label: Text(
                                 "Products",
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15),
                               )),
                           child: Center(
                               child: Text(
-                                "12",
-                                style: TextStyle(fontSize: 60, color: Colors.blue),
-                              )),
+                            "12",
+                            style: TextStyle(fontSize: 60, color: Colors.blue),
+                          )),
                         ),
                       ),
                     ),
@@ -203,13 +212,14 @@ class _HomePageState extends State<HomePage> {
                               icon: Icon(Icons.shopping_basket),
                               label: Text(
                                 "Sold",
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15),
                               )),
                           child: Center(
                               child: Text(
-                                "12",
-                                style: TextStyle(fontSize: 60, color: Colors.blue),
-                              )),
+                            "12",
+                            style: TextStyle(fontSize: 60, color: Colors.blue),
+                          )),
                         ),
                       ),
                     ),
@@ -229,13 +239,14 @@ class _HomePageState extends State<HomePage> {
                               icon: Icon(Icons.shopping_cart),
                               label: Text(
                                 "Orders",
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15),
                               )),
                           child: Center(
                               child: Text(
-                                "12",
-                                style: TextStyle(fontSize: 60, color: Colors.blue),
-                              )),
+                            "12",
+                            style: TextStyle(fontSize: 60, color: Colors.blue),
+                          )),
                         ),
                       ),
                     ),
@@ -255,13 +266,14 @@ class _HomePageState extends State<HomePage> {
                               icon: Icon(Icons.clear),
                               label: Text(
                                 "Return",
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15),
                               )),
                           child: Center(
                               child: Text(
-                                "12",
-                                style: TextStyle(fontSize: 60, color: Colors.blue),
-                              )),
+                            "12",
+                            style: TextStyle(fontSize: 60, color: Colors.blue),
+                          )),
                         ),
                       ),
                     ),
@@ -281,7 +293,10 @@ class _HomePageState extends State<HomePage> {
             Card(
               child: ListTile(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddProductScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AddProductScreen()));
                 },
                 leading: Icon(Icons.add),
                 title: Text("Add Product"),
@@ -302,7 +317,8 @@ class _HomePageState extends State<HomePage> {
             Card(
               child: ListTile(
                 onTap: () {
-                  _createDialog("Category", _category_controller, _categoryService);
+                  _createDialog(
+                      "Category", _category_controller, _categoryService);
                 },
                 leading: Icon(Icons.add_circle_outline),
                 title: Text("Add Category"),
@@ -323,7 +339,7 @@ class _HomePageState extends State<HomePage> {
             Card(
               child: ListTile(
                 onTap: () {
-                  _createDialog("Product",_brand_controller, _brandService);
+                  _createDialog("Product", _brand_controller, _brandService);
                 },
                 leading: Icon(Icons.add_circle),
                 title: Text("Add Brand"),
@@ -342,41 +358,45 @@ class _HomePageState extends State<HomePage> {
         break;
 
       default:
+        //Placeholder, doesn't actually happen
         return Container();
         break;
     }
   }
-  void _createDialog(String label, TextEditingController controller, Service service){
+
+  void _createDialog(
+      String label, TextEditingController controller, Service service) {
     var alert = AlertDialog(
       content: TextFormField(
         controller: controller,
-        validator: (value){
-          if(value.isEmpty)
-            return "Cannot be empty";
+        validator: (value) {
+          if (value.isEmpty) return "Cannot be empty";
         },
-        decoration: InputDecoration(
-            hintText: "Enter ${label}"
-        ),
-
+        decoration: InputDecoration(hintText: "Enter ${label}"),
       ),
       actions: <Widget>[
-        FlatButton(onPressed: (){
-          if (controller.text != null){
-            service.add(controller.text);
-            Fluttertoast.showToast(msg: "created ${label} Successfully");
+        FlatButton(
+          child: Text("ADD"),
+          onPressed: () {
+            if (controller.text != null) {
+              service.add(controller.text);
+              Fluttertoast.showToast(msg: "created ${label} Successfully");
+              Navigator.pop(context);
+            } else {
+              Navigator.pop(context);
+              Fluttertoast.showToast(msg: "${label} Cannot be empty");
+            }
+          },
+        ),
+        FlatButton(
+          child: Text("CANCEL"),
+          onPressed: () {
             Navigator.pop(context);
-          }else{
-            Fluttertoast.showToast(msg: "${label} Cannot be empty");
-          }
-        }, child: Text("ADD"),),
-
-        FlatButton(onPressed: (){
-          Navigator.pop(context);
-        }, child: Text("CANCEL"),)
+          },
+        )
       ],
     );
 
     showDialog(context: context, builder: (_) => alert);
   }
 }
-
