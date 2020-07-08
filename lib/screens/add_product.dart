@@ -13,7 +13,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
   CategoryService _categoryService = new CategoryService();
   BrandService _brandService = new BrandService();
 
-  List<DropdownMenuItem<String>> categoriesDropDown = <DropdownMenuItem<String>>[];
+  List<DropdownMenuItem<String>> categoriesDropDown =
+      <DropdownMenuItem<String>>[];
   List<DropdownMenuItem<String>> brandsDropDown = <DropdownMenuItem<String>>[];
 
   List<DocumentSnapshot> categories = <DocumentSnapshot>[];
@@ -24,6 +25,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   GlobalKey _key = new GlobalKey();
   TextEditingController _product_controller = TextEditingController();
+  TextEditingController _quantity_controller = TextEditingController();
 
   Color white = Colors.white;
   Color grey = Colors.grey;
@@ -36,13 +38,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
     print("brands Drop Down: ${brandsDropDown.length}");
   }
 
-  void setUI(){
+  void setUI() {
     _getCategories();
     _getBrands();
-
-    categoriesDropDown = getCategoriesDropDown();
-    brandsDropDown = getBrandsDropDown();
-
   }
 
   @override
@@ -53,9 +51,17 @@ class _AddProductScreenState extends State<AddProductScreen> {
         backgroundColor: white,
         elevation: 0.1,
         leading: InkWell(
-          onTap: (){Navigator.pop(context);},
-            child: Icon(Icons.close, color: black,)),
-        title: Text("Add Product", style: TextStyle(color: black),),
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.close,
+              color: black,
+            )),
+        title: Text(
+          "Add Product",
+          style: TextStyle(color: black),
+        ),
       ),
 
       // ======= Body ======== //
@@ -70,7 +76,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: InkWell(
-                      onTap: (){},
+                      onTap: () {},
                       child: Card(
                         elevation: 2,
                         child: Padding(
@@ -85,7 +91,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: InkWell(
-                      onTap: (){},
+                      onTap: () {},
                       child: Card(
                         elevation: 2,
                         child: Padding(
@@ -100,7 +106,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: InkWell(
-                      onTap: (){},
+                      onTap: () {},
                       child: Card(
                         elevation: 2,
                         child: Padding(
@@ -119,18 +125,78 @@ class _AddProductScreenState extends State<AddProductScreen> {
               padding: const EdgeInsets.all(12.0),
               child: TextFormField(
                 controller: _product_controller,
-                decoration: InputDecoration(
-                  hintText: "Enter Product Name"
-                ),
-                validator: (value){
-                  if (value.isEmpty){
+                decoration: InputDecoration(hintText: "Enter Product Name"),
+                validator: (value) {
+                  if (value.isEmpty) {
                     return "Name Cannot be empty";
-                  }else if (value.length > 10){
+                  } else if (value.length > 10) {
                     return "Name Cannot be more than 10 characters";
                   }
                 },
               ),
             ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  child: Text(
+                    "Category",
+                    style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                DropdownButton(
+                  items: categoriesDropDown,
+                  value: _currentCategory,
+                  onChanged: onCategoryChanged,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  child: Text(
+                    "Brand",
+                    style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                DropdownButton(
+                  items: brandsDropDown,
+                  value: _currentBrand,
+                  onChanged: onBrandChanged,
+                )
+              ],
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: TextFormField(
+                controller: _quantity_controller,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  hintText: "Quantity",
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: MaterialButton(
+                      onPressed: () {},
+                      color: Colors.blue,
+                      child: Text("Add Product", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
@@ -141,6 +207,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
     List<DocumentSnapshot> items = await _categoryService.getCategories();
     setState(() {
       categories = items;
+      categoriesDropDown = getCategoriesDropDown();
+      _currentCategory = categories[0].data["category_name"];
     });
     print("Brands: ${categories[0]["category_name"]}");
   }
@@ -149,14 +217,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
     List<DocumentSnapshot> items = await _brandService.getBrands();
     setState(() {
       brands = items;
+      brandsDropDown = getBrandsDropDown();
+      _currentBrand = brands[0].data["brand_name"];
     });
     print("Brands: ${brands[0]["brand_name"]}");
   }
 
   List<DropdownMenuItem<String>> getCategoriesDropDown() {
     List<DropdownMenuItem<String>> items = new List();
-    for(DocumentSnapshot category in categories){
-      items.add(DropdownMenuItem(child: Text(category["category_name"]), value: category["category_name"],));
+    for (DocumentSnapshot category in categories) {
+      items.add(DropdownMenuItem(
+        child: Text(category.data["category_name"]),
+        value: category.data["category_name"],
+      ));
     }
 
     return items;
@@ -164,12 +237,25 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   List<DropdownMenuItem<String>> getBrandsDropDown() {
     List<DropdownMenuItem<String>> items = new List();
-    for(DocumentSnapshot brand in brands){
-      items.add(DropdownMenuItem(child: Text(brand["brand_name"]), value: brand["brand_name"],));
+    for (DocumentSnapshot brand in brands) {
+      items.add(DropdownMenuItem(
+        child: Text(brand.data["brand_name"]),
+        value: brand.data["brand_name"],
+      ));
     }
 
     return items;
   }
+
+  void onCategoryChanged(String value) {
+    setState(() {
+      _currentCategory = value;
+    });
+  }
+
+  void onBrandChanged(String value) {
+    setState(() {
+      _currentBrand = value;
+    });
+  }
 }
-
-
