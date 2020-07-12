@@ -1,6 +1,10 @@
+
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:orderxadmin/db/brand.dart';
 import 'package:orderxadmin/db/category.dart';
 
@@ -13,8 +17,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   CategoryService _categoryService = new CategoryService();
   BrandService _brandService = new BrandService();
 
-  List<DropdownMenuItem<String>> categoriesDropDown =
-      <DropdownMenuItem<String>>[];
+  List<DropdownMenuItem<String>> categoriesDropDown = <DropdownMenuItem<String>>[];
   List<DropdownMenuItem<String>> brandsDropDown = <DropdownMenuItem<String>>[];
 
   List<DocumentSnapshot> categories = <DocumentSnapshot>[];
@@ -24,8 +27,15 @@ class _AddProductScreenState extends State<AddProductScreen> {
   String _currentBrand = "placeholder";
 
   GlobalKey _key = new GlobalKey();
+
   TextEditingController _product_controller = TextEditingController();
   TextEditingController _quantity_controller = TextEditingController();
+
+  //Image Files
+  final ImagePicker _picker = ImagePicker();
+  File image1;
+  File image2;
+  File image3;
 
   Color white = Colors.white;
   Color grey = Colors.grey;
@@ -72,48 +82,41 @@ class _AddProductScreenState extends State<AddProductScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
+                //Image 1
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: InkWell(
-                      onTap: () {},
-                      child: Card(
-                        elevation: 2,
-                        child: Padding(
-                          padding: const EdgeInsets.all(40.0),
-                          child: Icon(Icons.add),
-                        ),
-                      ),
+                      onTap: () {
+                        _addImage(ImagePicker().getImage(source: ImageSource.gallery), 1);
+                      },
+                      child: _displaychild(1),
                     ),
                   ),
                 ),
+
+                //Image2
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: InkWell(
-                      onTap: () {},
-                      child: Card(
-                        elevation: 2,
-                        child: Padding(
-                          padding: const EdgeInsets.all(40.0),
-                          child: Icon(Icons.add),
-                        ),
-                      ),
+                      onTap: () {
+                        _addImage(ImagePicker().getImage(source: ImageSource.gallery), 2);
+                      },
+                      child: _displaychild(2),
                     ),
                   ),
                 ),
+
+                //Image 3
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: InkWell(
-                      onTap: () {},
-                      child: Card(
-                        elevation: 2,
-                        child: Padding(
-                          padding: const EdgeInsets.all(40.0),
-                          child: Icon(Icons.add),
-                        ),
-                      ),
+                      onTap: () {
+                        _addImage(_picker.getImage(source: ImageSource.gallery), 3);
+                      },
+                      child: _displaychild(3),
                     ),
                   ),
                 )
@@ -191,7 +194,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     child: MaterialButton(
                       onPressed: () {},
                       color: Colors.blue,
-                      child: Text("Add Product", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                      child: Text(
+                        "Add Product",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ],
@@ -257,5 +264,76 @@ class _AddProductScreenState extends State<AddProductScreen> {
     setState(() {
       _currentBrand = value;
     });
+  }
+
+  void _addImage(Future<PickedFile> image, int postion) async {
+    final imageFile = await image;
+
+    switch(postion){
+      case 1:
+        setState(() {
+          image1 = File(imageFile.path);
+        });
+        break;
+
+      case 2:
+        setState(() {
+          image2  = File(imageFile.path);
+        });
+        break;
+
+      case 3:
+        setState(() {
+          image3 = File(imageFile.path);
+        });
+        break;
+    }
+  }
+
+  Widget _displaychild(int positon) {
+    switch(positon){
+      case 1:
+        if(image1 == null){
+          return Card(
+            elevation: 2,
+            child: Padding(
+              padding: const EdgeInsets.all(40.0),
+              child: Icon(Icons.add),
+            ),
+          );
+        }else if (image1 != null){
+          return Image.file(image1, fit: BoxFit.fill, width: double.infinity, );
+        }
+        break;
+
+      case 2:
+        if(image2 == null){
+          return Card(
+            elevation: 2,
+            child: Padding(
+              padding: const EdgeInsets.all(40.0),
+              child: Icon(Icons.add),
+            ),
+          );
+        }else if (image2 != null){
+          return Image.file(image2, fit: BoxFit.fill, width: double.infinity, );
+        }
+        break;
+
+
+      case 3:
+        if(image3 == null){
+          return Card(
+            elevation: 2,
+            child: Padding(
+              padding: const EdgeInsets.all(40.0),
+              child: Icon(Icons.add),
+            ),
+          );
+        }else if (image3 != null){
+          return Image.file(image3, fit: BoxFit.fill, width: double.infinity, );
+        }
+        break;
+    }
   }
 }

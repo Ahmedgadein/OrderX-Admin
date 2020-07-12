@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:orderxadmin/db/brand.dart';
 import 'package:orderxadmin/db/category.dart';
 import 'package:orderxadmin/db/generic_service.dart';
-import 'package:orderxadmin/db/brand.dart';
 import 'package:orderxadmin/screens/add_product.dart';
 
 // Pages
@@ -370,7 +370,10 @@ class _HomePageState extends State<HomePage> {
       content: TextFormField(
         controller: controller,
         validator: (value) {
-          if (value.isEmpty) return "Cannot be empty";
+          if (value.isEmpty) {
+            return "Cannot be empty";
+          }
+          return null;
         },
         decoration: InputDecoration(hintText: "Enter ${label}"),
       ),
