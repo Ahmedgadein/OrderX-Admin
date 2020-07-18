@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:orderxadmin/db/brand.dart';
 import 'package:orderxadmin/db/category.dart';
 import 'package:orderxadmin/db/product.dart';
+import 'package:flutter_multiselect/flutter_multiselect.dart';
 
 class AddProductScreen extends StatefulWidget {
   @override
@@ -34,6 +35,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   TextEditingController _product_controller = TextEditingController();
   TextEditingController _quantity_controller = TextEditingController();
+
+  List<int> _colors = [];
+
+  bool isFeatured = false;
+  bool onSale = false;
 
   //Image Files
   final ImagePicker _picker = ImagePicker();
@@ -155,6 +161,40 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         }
                         return null;
                       },
+                    ),
+                  ),
+
+
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal:8.0),
+                          child: Row(
+                            children: <Widget>[
+                              Text("Featured"),
+                              Switch(
+                                value: isFeatured,
+                                onChanged: onFeaturedChanged,
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal:8.0),
+                          child: Row(
+                            children: <Widget>[
+                              Text("On Sale"),
+                              Switch(
+                                value: onSale,
+                                onChanged: onSaleChanged,
+                              )
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                   ),
 
@@ -430,5 +470,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
         Fluttertoast.showToast(msg: "Product added successfully");
       }
     }
+  }
+
+  void onFeaturedChanged(bool value) {
+    setState(() => isFeatured = value);
+  }
+
+  void onSaleChanged(bool value) {
+    setState(() => onSale = value);
   }
 }
