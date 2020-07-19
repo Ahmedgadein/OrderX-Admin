@@ -9,7 +9,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:orderxadmin/db/brand.dart';
 import 'package:orderxadmin/db/category.dart';
 import 'package:orderxadmin/db/product.dart';
-import 'package:flutter_multiselect/flutter_multiselect.dart';
 
 class AddProductScreen extends StatefulWidget {
   @override
@@ -35,11 +34,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   TextEditingController _product_controller = TextEditingController();
   TextEditingController _quantity_controller = TextEditingController();
+  TextEditingController _price_controller = TextEditingController();
+  TextEditingController _old_price_controller = TextEditingController();
 
   List<int> _colors = [];
 
   bool isFeatured = false;
   bool onSale = false;
+  bool isNew = true;
 
   //Image Files
   final ImagePicker _picker = ImagePicker();
@@ -164,14 +166,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     ),
                   ),
 
-
                   Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal:8.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Row(
                             children: <Widget>[
                               Text("Featured"),
@@ -183,7 +184,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal:8.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Row(
+                            children: <Widget>[
+                              Text("New"),
+                              Switch(
+                                value: isNew,
+                                onChanged: onNewChanged,
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Row(
                             children: <Widget>[
                               Text("On Sale"),
@@ -234,11 +247,94 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     ],
                   ),
 
+                  onSale == true
+                      ? Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: TextFormField(
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return "Old Price cannot be empty";
+                                    }
+                                    return null;
+                                  },
+                                  controller: _old_price_controller,
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                      labelText: "Old Price",
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          borderSide: BorderSide(
+                                              color: Colors.blue, width: 1)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          borderSide: BorderSide(
+                                              color: Colors.blue[800]))),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: TextFormField(
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return "Price cannot be empty";
+                                    }
+                                    return null;
+                                  },
+                                  controller: _price_controller,
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                      labelText: "Price",
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          borderSide: BorderSide(
+                                              color: Colors.blue, width: 1)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          borderSide: BorderSide(
+                                              color: Colors.blue[800]))),
+                                ),
+                              ),
+                            )
+                          ],
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return "Price cannot be empty";
+                              }
+                              return null;
+                            },
+                            controller: _price_controller,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                                labelText: "Price",
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide(
+                                        color: Colors.blue, width: 1)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide:
+                                        BorderSide(color: Colors.blue[800]))),
+                          ),
+                        ),
+
                   Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: TextFormField(
-                      validator: (value){
-                        if(value.isEmpty){
+                      validator: (value) {
+                        if (value.isEmpty) {
                           return "Quantity cannot be empty";
                         }
                         return null;
@@ -246,8 +342,31 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       controller: _quantity_controller,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        hintText: "Quantity",
-                      ),
+                          labelText: "Quantity",
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 1)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: Colors.blue[800]))),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      decoration: InputDecoration(
+                          labelText: "Product Details",
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 1)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: Colors.blue[800]))),
                     ),
                   ),
 
@@ -440,7 +559,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         setState(() {
           isLoading = true;
         });
-        StorageUploadTask task1 =  _storage.child(pic1).putFile(image1);
+        StorageUploadTask task1 = _storage.child(pic1).putFile(image1);
         StorageUploadTask task2 = _storage.child(pic2).putFile(image2);
         StorageUploadTask task3 = _storage.child(pic3).putFile(image3);
 
@@ -457,12 +576,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
           "product_name": _product_controller.text,
           "category": _currentCategory,
           "brand": _currentBrand,
-          "quantity":_quantity_controller.text,
-          "images": {
-            "image1": image1Url,
-            "image2": image2Url,
-            "image3": image3Url
-          }
+          "quantity": _quantity_controller.text,
+          "onSale": onSale,
+          "new": isNew,
+          "price": _price_controller.text,
+          "old_price": _old_price_controller.text,
+          "image1": image1Url,
+          "image2": image2Url,
+          "image3": image3Url
         });
 
         _key.currentState.reset();
@@ -478,5 +599,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   void onSaleChanged(bool value) {
     setState(() => onSale = value);
+  }
+
+  void onNewChanged(bool value) {
+    setState(() => isNew = value);
   }
 }
