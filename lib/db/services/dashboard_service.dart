@@ -4,8 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BoardService{
   Firestore _firestore = Firestore.instance;
+  //Collections
   String categories = "Categories";
   String users = "Users";
+  String brands = "Brands";
 
   Future<String> getCategoriesCount() async{
     try{
@@ -33,6 +35,17 @@ class BoardService{
       List<DocumentSnapshot> _products;
       await _firestore.collection(users).getDocuments().then((value) => _products = value.documents);
       return _products.length.toString();
+
+    }catch( e){
+      print(e.toString());
+    }
+  }
+
+  Future<String> getBrandsCount() async{
+    try{
+      List<DocumentSnapshot> _brands;
+      await _firestore.collection(brands).getDocuments().then((value) => _brands = value.documents);
+      return _brands.length.toString();
 
     }catch( e){
       print(e.toString());

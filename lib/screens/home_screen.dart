@@ -31,6 +31,7 @@ class _HomePageState extends State<HomePage> {
   String categories;
   String users;
   String products;
+  String brands;
 
   @override
   void initState()  {
@@ -204,6 +205,33 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
 
+                  //Brands
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Container(
+                      height: 80,
+                      width: 80,
+                      child: Card(
+                        elevation: 5.0,
+                        child: GridTile(
+                          header: FlatButton.icon(
+                              onPressed: null,
+                              icon: Icon(Icons.shopping_basket),
+                              label: Text(
+                                "Brands",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15),
+                              )),
+                          child: Center(
+                              child: Text(
+                                brands == null ? 0.toString(): brands,
+                                style: TextStyle(fontSize: 60, color: Colors.blue),
+                              )),
+                        ),
+                      ),
+                    ),
+                  ),
+
                   //Products
                   Padding(
                     padding: const EdgeInsets.all(20.0),
@@ -223,7 +251,7 @@ class _HomePageState extends State<HomePage> {
                               )),
                           child: Center(
                               child: Text(
-                            "12",
+                            products == null ? 0.toString() : products,
                             style: TextStyle(fontSize: 60, color: Colors.blue),
                           )),
                         ),
@@ -231,32 +259,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
 
-                  //Sold
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Container(
-                      height: 80,
-                      width: 80,
-                      child: Card(
-                        elevation: 5.0,
-                        child: GridTile(
-                          header: FlatButton.icon(
-                              onPressed: null,
-                              icon: Icon(Icons.shopping_basket),
-                              label: Text(
-                                "Sold",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15),
-                              )),
-                          child: Center(
-                              child: Text(
-                            "12",
-                            style: TextStyle(fontSize: 60, color: Colors.blue),
-                          )),
-                        ),
-                      ),
-                    ),
-                  ),
+
 
                   //Orders
                   Padding(
@@ -304,7 +307,7 @@ class _HomePageState extends State<HomePage> {
                               )),
                           child: Center(
                               child: Text(
-                            "12",
+                            "1",
                             style: TextStyle(fontSize: 60, color: Colors.blue),
                           )),
                         ),
@@ -440,6 +443,7 @@ class _HomePageState extends State<HomePage> {
     users = await _service.getUsersCount();
     categories = await _service.getCategoriesCount();
     products = await _service.getProductsCount();
+    brands = await _service.getBrandsCount();
     setState(() {
     });
   }
