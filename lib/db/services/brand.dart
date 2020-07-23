@@ -1,4 +1,4 @@
-import 'package:orderxadmin/db/generic_service.dart';
+import 'file:///C:/Users/Ahmed-Obied/orderx_admin/lib/db/services/generic_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 class BrandService extends Service{

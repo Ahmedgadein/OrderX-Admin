@@ -6,9 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:orderxadmin/db/brand.dart';
-import 'package:orderxadmin/db/category.dart';
-import 'package:orderxadmin/db/product.dart';
+import 'file:///C:/Users/Ahmed-Obied/orderx_admin/lib/db/services/brand.dart';
+import 'file:///C:/Users/Ahmed-Obied/orderx_admin/lib/db/services/category.dart';
+import 'file:///C:/Users/Ahmed-Obied/orderx_admin/lib/db/services/product.dart';
 
 class AddProductScreen extends StatefulWidget {
   @override
@@ -578,6 +578,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
           "brand": _currentBrand,
           "quantity": _quantity_controller.text,
           "onSale": onSale,
+          "featured": isFeatured,
           "new": isNew,
           "price": _price_controller.text,
           "old_price": _old_price_controller.text,

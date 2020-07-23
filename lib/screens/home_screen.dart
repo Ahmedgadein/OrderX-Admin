@@ -2,9 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:orderxadmin/db/brand.dart';
-import 'package:orderxadmin/db/category.dart';
-import 'package:orderxadmin/db/generic_service.dart';
+import 'package:orderxadmin/db/services/dashboard_service.dart';
+import 'file:///C:/Users/Ahmed-Obied/orderx_admin/lib/db/services/brand.dart';
+import 'file:///C:/Users/Ahmed-Obied/orderx_admin/lib/db/services/category.dart';
+import 'file:///C:/Users/Ahmed-Obied/orderx_admin/lib/db/services/generic_service.dart';
 import 'package:orderxadmin/screens/add_product.dart';
 
 // Pages
@@ -20,16 +21,32 @@ class _HomePageState extends State<HomePage> {
   Color active = Colors.blue;
   Color inactive = Colors.grey;
 
+  BoardService _service = BoardService();
   BrandService _brandService = new BrandService();
   CategoryService _categoryService = new CategoryService();
 
   TextEditingController _category_controller = new TextEditingController();
   TextEditingController _brand_controller = new TextEditingController();
 
+  String categories;
+  String users;
+  String products;
+
   @override
-  void initState() {
+  void initState()  {
     super.initState();
     manageSignIn();
+    getData();
+  }
+
+  Future getCategories() async {
+    setState(() {
+    });
+  }
+
+  Future getUsers() async {
+    setState(() {
+    });
   }
 
   manageSignIn() async{
@@ -152,7 +169,7 @@ class _HomePageState extends State<HomePage> {
                               )),
                           child: Center(
                               child: Text(
-                            "12",
+                            users == null ? 0.toString() : users,
                             style: TextStyle(fontSize: 60, color: Colors.blue),
                           )),
                         ),
@@ -179,7 +196,7 @@ class _HomePageState extends State<HomePage> {
                               )),
                           child: Center(
                               child: Text(
-                            "3",
+                            categories == null ? 0.toString() : categories,
                             style: TextStyle(fontSize: 60, color: Colors.blue),
                           )),
                         ),
@@ -417,5 +434,13 @@ class _HomePageState extends State<HomePage> {
     );
 
     showDialog(context: context, builder: (_) => alert);
+  }
+
+  void getData() async {
+    users = await _service.getUsersCount();
+    categories = await _service.getCategoriesCount();
+    products = await _service.getProductsCount();
+    setState(() {
+    });
   }
 }
