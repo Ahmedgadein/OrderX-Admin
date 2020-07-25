@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:orderxadmin/widgets/color_selector.dart';
+import 'package:orderxadmin/widgets/size_selector.dart';
 import 'file:///C:/Users/Ahmed-Obied/orderx_admin/lib/db/services/brand.dart';
 import 'file:///C:/Users/Ahmed-Obied/orderx_admin/lib/db/services/category.dart';
 import 'file:///C:/Users/Ahmed-Obied/orderx_admin/lib/db/services/product.dart';
@@ -36,8 +38,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
   TextEditingController _quantity_controller = TextEditingController();
   TextEditingController _price_controller = TextEditingController();
   TextEditingController _old_price_controller = TextEditingController();
+  TextEditingController _details_controller = TextEditingController();
 
-  List<int> _colors = [];
+  List<String> selectedColors = <String>[];
+  List<String> selectedSizes = <String>[];
 
   bool isFeatured = false;
   bool onSale = false;
@@ -211,6 +215,54 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     ),
                   ),
 
+                  Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Expanded(
+                              child: MaterialButton(
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (_) => ColorSelector(selectedColors));
+                                },
+                                color: Colors.blue[900],
+                                child: Text(
+                                  "Select Colors",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Expanded(
+                              child: MaterialButton(
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (_) => SizeSelector(selectedSizes));
+                                },
+                                color: Colors.blue[900],
+                                child: Text(
+                                  "Select Sizes",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          )
+                        ]),
+                  ),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -356,6 +408,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return "Details cannot be empty";
+                        }
+                        return null;
+                      },
+                      controller: _details_controller,
                       keyboardType: TextInputType.multiline,
                       maxLines: null,
                       decoration: InputDecoration(
@@ -541,7 +600,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
           image1 != null &&
           image1 != null &&
           _quantity_controller.text != null &&
-          _product_controller.text != null) {
+          _product_controller.text != null && _details_controller.text != null) {
+
+
         String image1Url;
         String image2Url;
         String image3Url;
@@ -584,7 +645,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
           "old_price": _old_price_controller.text,
           "image1": image1Url,
           "image2": image2Url,
-          "image3": image3Url
+          "image3": image3Url,
+          "details": _details_controller.text,
+          "sizes": getSizesMap(),
+          "colors": getColorsMap()
+
         });
 
         _key.currentState.reset();
@@ -592,6 +657,26 @@ class _AddProductScreenState extends State<AddProductScreen> {
         Fluttertoast.showToast(msg: "Product added successfully");
       }
     }
+  }
+
+  Map<String, dynamic> getSizesMap(){
+    Map<String,String> result = Map<String,String>();
+
+    for(int i = 0; i < selectedSizes.length; i++){
+      result["size" + i.toString()] = selectedSizes[i];
+    }
+
+    return result;
+  }
+
+  Map<String, dynamic> getColorsMap(){
+    Map<String,String> result = Map<String,String>();
+
+    for(int i = 0; i < selectedColors.length; i++){
+      result["color" + i.toString()] = selectedColors[i];
+    }
+
+    return result;
   }
 
   void onFeaturedChanged(bool value) {

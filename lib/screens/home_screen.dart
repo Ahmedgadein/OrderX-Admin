@@ -323,74 +323,7 @@ class _HomePageState extends State<HomePage> {
 
       case Page.manage:
         // =============== Manage ===================== //
-        return ListView(
-          children: <Widget>[
-            //Add Product
-            Card(
-              child: ListTile(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AddProductScreen()));
-                },
-                leading: Icon(Icons.add),
-                title: Text("Add Product"),
-              ),
-            ),
-            //Products List
-            Card(
-              child: ListTile(
-                onTap: () {},
-                leading: Icon(Icons.format_list_bulleted),
-                title: Text("Products List"),
-              ),
-            ),
-
-            Divider(),
-
-            //Add Category
-            Card(
-              child: ListTile(
-                onTap: () {
-                  _createDialog(
-                      "Category", _category_controller, _categoryService);
-                },
-                leading: Icon(Icons.add_circle_outline),
-                title: Text("Add Category"),
-              ),
-            ),
-            //Categories List
-            Card(
-              child: ListTile(
-                onTap: () {},
-                leading: Icon(Icons.category),
-                title: Text("Category List"),
-              ),
-            ),
-
-            Divider(),
-
-            //Add Brand
-            Card(
-              child: ListTile(
-                onTap: () {
-                  _createDialog("Product", _brand_controller, _brandService);
-                },
-                leading: Icon(Icons.add_circle),
-                title: Text("Add Brand"),
-              ),
-            ),
-            //Brands List
-            Card(
-              child: ListTile(
-                onTap: () {},
-                leading: Icon(Icons.library_books),
-                title: Text("Brands List"),
-              ),
-            )
-          ],
-        );
+        return getMangeScreen();
         break;
 
       default:
@@ -398,6 +331,77 @@ class _HomePageState extends State<HomePage> {
         return Container();
         break;
     }
+  }
+
+  ListView getMangeScreen() {
+    return ListView(
+        children: <Widget>[
+          //Add Product
+          Card(
+            child: ListTile(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddProductScreen()));
+              },
+              leading: Icon(Icons.add),
+              title: Text("Add Product"),
+            ),
+          ),
+          //Products List
+          Card(
+            child: ListTile(
+              onTap: () {},
+              leading: Icon(Icons.format_list_bulleted),
+              title: Text("Products List"),
+            ),
+          ),
+
+          Divider(),
+
+          //Add Category
+          Card(
+            child: ListTile(
+              onTap: () {
+                _createDialog(
+                    "Category", _category_controller, _categoryService);
+              },
+              leading: Icon(Icons.add_circle_outline),
+              title: Text("Add Category"),
+            ),
+          ),
+          //Categories List
+          Card(
+            child: ListTile(
+              onTap: () {},
+              leading: Icon(Icons.category),
+              title: Text("Category List"),
+            ),
+          ),
+
+          Divider(),
+
+          //Add Brand
+          Card(
+            child: ListTile(
+              onTap: () {
+                _createDialog("Product", _brand_controller, _brandService);
+              },
+              leading: Icon(Icons.add_circle),
+              title: Text("Add Brand"),
+            ),
+          ),
+          //Brands List
+          Card(
+            child: ListTile(
+              onTap: () {},
+              leading: Icon(Icons.library_books),
+              title: Text("Brands List"),
+            ),
+          )
+        ],
+      );
   }
 
   void _createDialog(
